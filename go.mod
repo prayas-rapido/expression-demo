@@ -2,4 +2,6 @@ module expression-demo
 
 go 1.17
 
-require github.com/maja42/goval v1.2.1 // indirect
+require github.com/antonmedv/expr v1.9.0
+
+require github.com/stretchr/testify v1.7.0 // indirect

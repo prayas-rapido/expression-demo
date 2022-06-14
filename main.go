@@ -1,30 +1,30 @@
 package main
 
 import (
-	"fmt"
-	"github.com/maja42/goval"
+	"github.com/antonmedv/expr"
 	"strings"
 )
 
-func evaluateKmExpressions(exp string, variables map[string]interface{}) bool {
-	expressions := strings.Split(exp, "and")
-	evaluator := goval.NewEvaluator()
-	for _, expression := range expressions {
-		evaluate, err := evaluator.Evaluate(expression, variables, nil)
-		if err != nil || evaluate == false {
-			return false
-		}
+func evaluateBooleanExpressions(exp string, variables map[string]interface{}) bool {
+	eval, err := expr.Eval(exp, variables)
+	if err != nil || eval == false {
+		return false
 	}
 	return true
 }
 
-func evaluateBaExpressions(exp string, variables map[string]interface{}) interface{} {
+func evaluateExpressionWithNumber(exp string, variables map[string]interface{}) int {
 	expressions := strings.Split(exp, "=")
-	evaluator := goval.NewEvaluator()
-	evaluate, err := evaluator.Evaluate(expressions[1], variables, nil)
-	fmt.Println(evaluate)
+	evaluate, err := expr.Eval(expressions[1], variables)
 	if err != nil {
-		return evaluator
+		return -1
 	}
-	return evaluator
+	switch v := evaluate.(type) {
+	case int:
+		return v
+	case float64:
+		return int(v)
+	default:
+		return -1
+	}
 }
