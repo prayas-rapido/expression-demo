@@ -1,21 +1,27 @@
 package main
 
 import (
-	"github.com/antonmedv/expr"
+	"github.com/Knetic/govaluate"
 	"strings"
 )
 
 func evaluateBooleanExpressions(exp string, variables map[string]interface{}) bool {
-	eval, err := expr.Eval(exp, variables)
-	if err != nil || eval == false {
-		return false
+	expressions := strings.Split(exp, "and")
+	for _, item := range expressions {
+		expression, _ := govaluate.NewEvaluableExpression(item)
+		eval, err := expression.Evaluate(variables)
+		if err != nil || eval == false {
+			return false
+		}
 	}
 	return true
 }
 
 func evaluateExpressionWithNumber(exp string, variables map[string]interface{}) int {
-	expressions := strings.Split(exp, "=")
-	evaluate, err := expr.Eval(expressions[1], variables)
+	expression := strings.Split(exp, "=")
+	evaluator, err := govaluate.NewEvaluableExpression(expression[1])
+	evaluate, err := evaluator.Evaluate(variables)
+
 	if err != nil {
 		return -1
 	}
