@@ -33,6 +33,7 @@ type BaExpressionTest struct {
 
 var addBaExpressionTests = []BaExpressionTest{
 	{expression: "ba=ba-10", variable: map[string]interface{}{"ba": 100}, expected: 90},
+	{expression: "ba=10", variable: map[string]interface{}{"ba": 100}, expected: 10},
 	{expression: "BA=BA-10", variable: map[string]interface{}{"BA": 100}, expected: 90}, //case sensitive
 	{expression: "BA=BA-1", variable: map[string]interface{}{"BA": 1000000000000}, expected: 999999999999}, //with big values
 	{expression: "ba=ba*0.90", variable: map[string]interface{}{"ba": 100}, expected: 90},
