@@ -17,19 +17,20 @@ func evaluateBooleanExpressions(exp string, variables map[string]interface{}) bo
 	return true
 }
 
-func evaluateExpressionWithNumber(exp string, variables map[string]interface{}) int {
+func evaluateExpressionWithNumber(exp string, variables map[string]interface{}) float64 {
 	expression := strings.Split(exp, "=")
-	evaluator, err := govaluate.NewEvaluableExpression(expression[1])
-	evaluate, err := evaluator.Evaluate(variables)
-
-	if err != nil {
-		return -1
+	var evaluate interface{}
+	if len(expression) > 1 {
+		evaluator, _ := govaluate.NewEvaluableExpression(expression[1])
+		evaluate, _ = evaluator.Evaluate(variables)
+	} else {
+		evaluator, _ := govaluate.NewEvaluableExpression(expression[0])
+		evaluate, _ = evaluator.Evaluate(variables)
 	}
+
 	switch v := evaluate.(type) {
-	case int:
-		return v
 	case float64:
-		return int(v)
+		return v
 	default:
 		return -1
 	}

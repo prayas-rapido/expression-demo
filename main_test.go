@@ -28,22 +28,25 @@ func TestKmExpressions(t *testing.T) {
 type BaExpressionTest struct {
 	expression string
 	variable   map[string]interface{}
-	expected   int
+	expected   float64
 }
 
 var addBaExpressionTests = []BaExpressionTest{
 	{expression: "ba=ba-10", variable: map[string]interface{}{"ba": 100}, expected: 90},
+	{expression: "ba-10", variable: map[string]interface{}{"ba": 100}, expected: 90},
+	{expression: "ba-10.5", variable: map[string]interface{}{"ba": 100}, expected: 89.5},
 	{expression: "ba=10", variable: map[string]interface{}{"ba": 100}, expected: 10},
 	{expression: "BA=BA-10", variable: map[string]interface{}{"BA": 100}, expected: 90}, //case sensitive
 	{expression: "BA=BA-1", variable: map[string]interface{}{"BA": 1000000000000}, expected: 999999999999}, //with big values
 	{expression: "ba=ba*0.90", variable: map[string]interface{}{"ba": 100}, expected: 90},
 	{expression: "ba=ba*0.90", variable: map[string]interface{}{"ba": 100000000000000}, expected: 90000000000000},
+	{expression: "illegalexpression", variable: map[string]interface{}{"ba": 100000000000000}, expected: -1},
 }
 
 func TestBaExpressions(t *testing.T) {
 	for i, test := range addBaExpressionTests {
 		if output := evaluateExpressionWithNumber(test.expression, test.variable); output != test.expected {
-			t.Errorf("%d Output %d not equal to expected %d", i, output, test.expected)
+			t.Errorf("%d Output %f not equal to expected %f", i, output, test.expected)
 		}
 	}
 }
