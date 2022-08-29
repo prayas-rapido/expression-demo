@@ -38,6 +38,8 @@ var addBaExpressionTests = []BaExpressionTest{
 	{expression: "BA=BA-1", variable: map[string]interface{}{"BA": 1000000000000}, expected: 999999999999}, //with big values
 	{expression: "ba=ba*0.90", variable: map[string]interface{}{"ba": 100}, expected: 90},
 	{expression: "ba=ba*0.90", variable: map[string]interface{}{"ba": 100000000000000}, expected: 90000000000000},
+	{expression: "ba=km*10", variable: map[string]interface{}{"km": 2}, expected: 20},
+	{expression: "BA=KM*10", variable: map[string]interface{}{"KM": 1}, expected: 10},
 }
 
 func TestBaExpressions(t *testing.T) {
