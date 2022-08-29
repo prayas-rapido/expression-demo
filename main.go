@@ -17,6 +17,10 @@ func evaluateBooleanExpressions(exp string, variables map[string]interface{}) bo
 	return true
 }
 
+/*
+	returns updated BA in case of FLAT and Percentage Offers
+	returns discount value given by this coupon in case FIX and Km offers
+*/
 func evaluateExpressionWithNumber(exp string, variables map[string]interface{}) float64 {
 	expression := strings.Split(exp, "=")
 	var evaluate interface{}
