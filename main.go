@@ -21,20 +21,25 @@ func evaluateBooleanExpressions(exp string, variables map[string]interface{}) bo
 	returns updated BA in case of FLAT and Percentage Offers
 	returns discount value given by this coupon in case FIX and Km offers
 */
-func evaluateExpressionWithNumber(exp string, variables map[string]interface{}) float64 {
-	expression := strings.Split(exp, "=")
+func evaluateExpressionWithNumber(exp string, variables map[string]interface{}) int {
+	expressions := strings.Split(exp, "=")
 	var evaluate interface{}
-	if len(expression) > 1 {
-		evaluator, _ := govaluate.NewEvaluableExpression(expression[1])
+	var err interface{}
+	if len(expressions) > 1 {
+		evaluator, _ := govaluate.NewEvaluableExpression(expressions[1])
 		evaluate, _ = evaluator.Evaluate(variables)
 	} else {
-		evaluator, _ := govaluate.NewEvaluableExpression(expression[0])
+		evaluator, _ := govaluate.NewEvaluableExpression(expressions[0])
 		evaluate, _ = evaluator.Evaluate(variables)
 	}
-
+	if err != nil {
+		return -1
+	}
 	switch v := evaluate.(type) {
-	case float64:
+	case int:
 		return v
+	case float64:
+		return int(v)
 	default:
 		return -1
 	}
