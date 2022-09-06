@@ -15,7 +15,13 @@ func evaluateBooleanExpressions(exp string, variables map[string]interface{}) bo
 
 func evaluateExpressionWithNumber(exp string, variables map[string]interface{}) int {
 	expressions := strings.Split(exp, "=")
-	evaluate, err := expr.Eval(expressions[1], variables)
+	var evaluate interface{}
+	var err interface{}
+	if len(expressions) > 1 {
+		evaluate, err = expr.Eval(expressions[1], variables)
+	} else {
+		evaluate, err = expr.Eval(expressions[0], variables)
+	}
 	if err != nil {
 		return -1
 	}
